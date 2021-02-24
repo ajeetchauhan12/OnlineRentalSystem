@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.coforge.dao.CustomerDao"/>
+<fullyQualifiedTypeName name="com.coforge.dao.CustomerDaoImpl"/>
+<fullyQualifiedTypeName name="com.coforge.bean.Vehicle"/>
+<fullyQualifiedTypeName name="com.coforge.bean.Mechanic"/>
+<fullyQualifiedTypeName name="com.coforge.bean.JobCard"/>
+<fullyQualifiedTypeName name="com.coforge.bean.Insurance"/>
+<fullyQualifiedTypeName name="com.coforge.bean.ServiceFault"/>
+<fullyQualifiedTypeName name="com.coforge.bean.Bill"/>
+<fullyQualifiedTypeName name="com.coforge.Service.MechanicService"/>
+<fullyQualifiedTypeName name="com.coforge.dao.MechanicDao"/>
+<fullyQualifiedTypeName name="com.coforge.dao.MechanicDaoImpl"/>
+<fullyQualifiedTypeName name="com.coforge.Service.ServiceFaultService"/>
+<fullyQualifiedTypeName name="com.coforge.dao.ServiceFaultDao"/>
+<fullyQualifiedTypeName name="com.coforge.dao.ServiceFaultDaoImpl"/>
+<fullyQualifiedTypeName name="com.coforge.dao.ServiceDao"/>
+<fullyQualifiedTypeName name="com.coforge.dao.ServiceDaoImpl"/>
+<fullyQualifiedTypeName name="com.coforge.dao.VehicleDao"/>
+<fullyQualifiedTypeName name="com.coforge.dao.VehicleDaoImpl"/>
+<fullyQualifiedTypeName name="com.coforge.dao.BillDao"/>
+<fullyQualifiedTypeName name="com.coforge.dao.BilldaoImpl"/>
+<fullyQualifiedTypeName name="com.coforge.dao.InsuranceDao"/>
+<fullyQualifiedTypeName name="com.coforge.dao.InsuranceDaoImpl"/>
+<fullyQualifiedTypeName name="com.coforge.dao.JobCardDao"/>
+<fullyQualifiedTypeName name="com.coforge.dao.JobCardDaoImpl"/>
+<fullyQualifiedTypeName name="com.coforge.Service.CustomerServiceImpl"/>
+<fullyQualifiedTypeName name="com.coforge.Service.MechanicServiceImpl"/>
+<fullyQualifiedTypeName name="com.coforge.Service.JobCardServiceImpl"/>
+<fullyQualifiedTypeName name="com.coforge.Service.InsuranceServiceImpl"/>
+<fullyQualifiedTypeName name="com.coforge.Service.BillServiceImpl"/>
+<fullyQualifiedTypeName name="com.coforge.Service.ServiceFaultServiceImpl"/>
+<fullyQualifiedTypeName name="com.coforge.Service.ServiceServImpl"/>
+<fullyQualifiedTypeName name="com.coforge.Service.VehicleServiceImpl"/>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="com.coforge.db.DbConnect"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+</qualifiedTypeNameHistroy>

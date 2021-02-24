@@ -1,0 +1,172 @@
+package com.coforge.dao;
+
+import java.sql.Connection;
+
+import java.sql.PreparedStatement;
+import java.sql.Exception;
+import java.util.Iterator;
+
+
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+import com.coforge.Exception.MyException;
+import com.coforge.bean.Customer;
+import com.coforge.db.DbConnect;
+
+public class CustomerDaoImpl implements CustomerDao{
+	private Customer c;
+	
+	
+	/*private Set<Customer> set=null; 
+			Iterator<Customer> itr=null;*/
+	//static Scanner sc = new Scanner(System.in);
+	static Connection con=null;
+	static PreparedStatement pst=null;
+	
+	
+	/*public void add() {
+		boolean t;
+		System.out.println("enter no. of customer to add");
+		int num=sc.nextInt();
+		set=new TreeSet<Customer>();
+		while(num>0) {
+		c=new Customer();
+		System.out.println("Customer Id:");
+		c.setCust_Id(sc.nextInt());
+		sc.nextLine();
+		do {
+			 t=false;
+		
+		try {
+			System.out.println("Customer Id:");
+		if(String.valueOf(sc.nextInt()).length()>6)
+			throw new MyException("id should be of 6 digits");
+			//c.setCust_Id(sc.nextInt());
+		else
+			//c.setCust_Id(s);
+		t=false;
+		sc.nextLine();
+		
+		}
+		catch(Exception e)
+		{
+			System.out.println("pls enter the id again");
+			t=true;
+	//	sc.nextLine();
+		}
+		}while(t);
+		
+	//	sc.nextLine();
+		System.out.println("Customer Name :");
+		c.setCust_Name(sc.nextLine());
+		System.out.println("Customer Address :");
+		c.setCust_Address(sc.nextLine());
+		System.out.println("Costomer Mobile No. :");
+		c.setCust_Mob(sc.nextLong());
+		sc.nextLine();
+		System.out.println("Customer DOB :");
+		c.setCust_DOB(sc.nextLine());
+		set.add(c);
+		num--;
+		}
+		
+	}*/
+	public void add() throws Exception {
+		//boolean t;
+		try {
+			
+			Scanner sc = new Scanner(System.in);
+			
+			con=DbConnect.dbConnectMethod();
+	con.setAutoCommit(false);
+			System.out.println("enter no. of customer to add");
+		int num=sc.nextInt();
+		//set=new TreeSet<Customer>();
+		while(num>0) {
+		//c=new Customer();
+		String str="insert into Customer values(?,?,?,?,?)";
+		pst=con.prepareStatement(str);
+		
+		System.out.println("Customer Id:");
+		//c.setCust_Id(sc.nextInt());
+		pst.setInt(1,sc.nextInt());
+		sc.nextLine();
+		/*do {
+			 t=false;
+		
+		try {
+			System.out.println("Customer Id:");
+		if(String.valueOf(sc.nextInt()).length()>6)
+			throw new MyException("id should be of 6 digits");
+			//c.setCust_Id(sc.nextInt());
+		else
+			//c.setCust_Id(s);
+		t=false;
+		sc.nextLine();
+		
+		}
+		catch(Exception e)
+		{
+			System.out.println("pls enter the id again");
+			t=true;
+	//	sc.nextLine();
+		}
+		}while(t);
+		*/
+	//	sc.nextLine();
+		System.out.println("Customer Name :");
+		//c.setCust_Name(sc.nextLine());
+		pst.setString(2,sc.nextLine());
+		System.out.println("Customer Address :");
+		//c.setCust_Address(sc.nextLine());
+		pst.setString(3,sc.nextLine());
+		System.out.println("Costomer Mobile No. :");
+		//c.setCust_Mob(sc.nextLong());
+		pst.setLong(4,sc.nextLong());
+		sc.nextLine();
+		System.out.println("Customer DOB :");
+	//	c.setCust_DOB(sc.nextLine());
+		pst.setString(5, sc.nextLine());
+		//set.add(c);
+		pst.executeUpdate();
+		System.out.println("data inserted");
+	num--;
+		
+	}
+		}catch(Exception e ) {
+			e.printStackTrace();
+			con.rollback();
+		}finally {
+			try {
+			con.commit();	
+				pst.close();
+				con.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
+	
+	public void display() {
+/*	itr=set.iterator();
+	while(itr.hasNext()) {
+		Customer c=itr.next();
+		System.out.println(c);*/
+	}
+		/*	System.out.println("Customer Id: "+c.getCust_Id());
+		System.out.println("Customer Name: "+c.getCust_Name());
+		System.out.println("Customer Address: "+c.getCust_Address());
+		System.out.println("Customer Mobile No.: "+c.getCust_Mob());
+		System.out.println("Customer DOB: "+c.getCust_DOB()+"\n\n");*/
+//	}
+	
+	public Customer getCust()
+	{
+		return c;
+	}
+
+}

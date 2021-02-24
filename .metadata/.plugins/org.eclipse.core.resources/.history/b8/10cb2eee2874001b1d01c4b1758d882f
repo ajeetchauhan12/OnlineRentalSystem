@@ -1,0 +1,11 @@
+package com.coforge.Service;
+
+import java.sql.SQLException;
+
+import com.coforge.bean.Vehicle;
+
+public interface VehicleService {
+public void addVehicle(CustomerServiceImpl csi) throws SQLException;
+public void dispVehicle();
+public Vehicle getVehicle();
+}

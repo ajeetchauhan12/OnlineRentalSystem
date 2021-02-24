@@ -1,0 +1,96 @@
+package com.coforge.VehicleServiceCentre;
+
+
+import java.sql.SQLException;
+
+import com.coforge.Service.BillServiceImpl;
+
+import com.coforge.Service.CustomerServiceImpl;
+import com.coforge.Service.InsuranceServiceImpl;
+import com.coforge.Service.JobCardServiceImpl;
+import com.coforge.Service.MechanicServiceImpl;
+import com.coforge.Service.ServiceFaultServiceImpl;
+import com.coforge.Service.ServiceServImpl;
+import com.coforge.Service.VehicleServiceImpl;
+import com.coforge.dao.BillDao;
+
+import com.coforge.dao.CustomerDao;
+import com.coforge.dao.InsuranceDao;
+import com.coforge.dao.JobCardDao;
+import com.coforge.dao.MechanicDao;
+import com.coforge.dao.ServiceDao;
+import com.coforge.dao.ServiceFaultDao;
+import com.coforge.dao.VehicleDao;
+
+public class App 
+{
+    public static void main( String[] args ) throws SQLException
+    {
+    	/*CustomerDao cd = new CustomerDao();
+    	VehicleDao vd= new VehicleDao();
+    	MechanicDao md = new MechanicDao();
+    	JobCardDao jd = new JobCardDao();
+    	ServiceDao sd = new ServiceDao();
+    	ServiceFaultDao sfd = new ServiceFaultDao();
+    	InsuranceDao id = new InsuranceDao();
+    	BillDao bd = new BillDao();*/
+    	
+    	/*cd.add();
+    	vd.add(cd);
+    	md.add();
+    	jd.add(vd);
+ 		sd.add(md,jd);
+    	sfd.add(sd);
+    	id.add(vd);
+    	bd.add(id,sd);
+ 	
+    	cd.display();
+    	vd.display(cd);
+    	md.display();
+    	jd.display(vd);
+    	sd.display(md,jd);
+    	sfd.display(sd);
+    	id.display(vd);
+    	bd.display(id,sd);*/
+    
+    CustomerServiceImpl csi=new CustomerServiceImpl();
+   VehicleServiceImpl vsi=new VehicleServiceImpl();
+    
+    MechanicServiceImpl msi=new MechanicServiceImpl();
+    ServiceServImpl ssi=new ServiceServImpl();
+    
+    ServiceFaultServiceImpl sfsi=new ServiceFaultServiceImpl();
+    JobCardServiceImpl jcsi=new JobCardServiceImpl();
+    
+    InsuranceServiceImpl isi=new InsuranceServiceImpl();
+    BillServiceImpl bsi=new BillServiceImpl();
+   //6 csi.addCust();
+  //  
+   /* bsi.addBill(ssi, isi);
+    */;
+   /* vsi.addVehicle(csi);
+    msi.addMech();
+    jcsi.addJobCard(vsi);
+    ssi.addService(msi,jcsi);
+    sfsi.addServiceFault(ssi);
+    isi.addInsurance(vsi);
+  bsi.addBill(ssi,isi); 
+  csi.displayCust();
+  
+    
+    vsi.dispVehicle();
+    msi.dispMech();
+    sfsi.dispSericeFault();
+    jcsi.dispJobCard();
+    isi.dispInsurance();
+    bsi.dispBill();
+    */
+    csi.insert();
+    csi.displayAllCustomer();
+    csi.displayByCustId();
+    csi.updateCustomer();
+    csi.deleteCustomer();
+    
+    
+    }
+}

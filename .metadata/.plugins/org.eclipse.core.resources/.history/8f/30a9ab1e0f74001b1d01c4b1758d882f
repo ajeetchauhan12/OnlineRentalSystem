@@ -1,0 +1,12 @@
+package com.coforge.Service;
+
+import java.sql.SQLException;
+
+import com.coforge.bean.Customer;
+
+public interface CustomerService {
+	public void addCust() throws SQLException;
+	public void displayCust();
+	public Customer getCust();
+
+}

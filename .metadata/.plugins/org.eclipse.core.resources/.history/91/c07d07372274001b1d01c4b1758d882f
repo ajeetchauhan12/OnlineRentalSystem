@@ -1,0 +1,13 @@
+package com.coforge.dao;
+
+import java.sql.SQLException;
+import java.util.Scanner;
+
+
+import com.coforge.bean.Mechanic;
+
+public interface MechanicDao {
+	public void add() throws SQLException;
+	public void display() throws SQLException;
+	public Mechanic getMechanic();
+}

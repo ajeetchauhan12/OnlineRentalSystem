@@ -1,0 +1,5 @@
+package com.coforge.db;
+
+public class DbConnect {
+
+}

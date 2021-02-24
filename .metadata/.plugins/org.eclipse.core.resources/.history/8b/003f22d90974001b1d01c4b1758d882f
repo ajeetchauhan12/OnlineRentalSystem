@@ -1,0 +1,304 @@
+package com.coforge.dao;
+
+import java.sql.Connection;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Iterator;
+
+
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+import com.coforge.Exception.MyException;
+import com.coforge.bean.Customer;
+import com.coforge.db.DbConnect;
+
+public class CustomerDaoImpl implements CustomerDao{
+	private Customer c;
+	
+	
+	/*private Set<Customer> set=null; 
+			Iterator<Customer> itr=null;*/
+	static Scanner sc = new Scanner(System.in);
+	static Connection con=null;
+	static PreparedStatement pst=null;
+	static Statement st=null;
+	 static ResultSet rs=null; 
+	
+	
+	/*public void add() {
+		boolean t;
+		System.out.println("enter no. of customer to add");
+		int num=sc.nextInt();
+		set=new TreeSet<Customer>();
+		while(num>0) {
+		c=new Customer();
+		System.out.println("Customer Id:");
+		c.setCust_Id(sc.nextInt());
+		sc.nextLine();
+		do {
+			 t=false;
+		
+		try {
+			System.out.println("Customer Id:");
+		if(String.valueOf(sc.nextInt()).length()>6)
+			throw new MyException("id should be of 6 digits");
+			//c.setCust_Id(sc.nextInt());
+		else
+			//c.setCust_Id(s);
+		t=false;
+		sc.nextLine();
+		
+		}
+		catch(Exception e)
+		{
+			System.out.println("pls enter the id again");
+			t=true;
+	//	sc.nextLine();
+		}
+		}while(t);
+		
+	//	sc.nextLine();
+		System.out.println("Customer Name :");
+		c.setCust_Name(sc.nextLine());
+		System.out.println("Customer Address :");
+		c.setCust_Address(sc.nextLine());
+		System.out.println("Costomer Mobile No. :");
+		c.setCust_Mob(sc.nextLong());
+		sc.nextLine();
+		System.out.println("Customer DOB :");
+		c.setCust_DOB(sc.nextLine());
+		set.add(c);
+		num--;
+		}
+		
+	}*/
+	public void add() throws SQLException  {
+		//boolean t;
+		try {
+			
+			
+			
+			con=DbConnect.dbConnectMethod();
+	con.setAutoCommit(false);
+			System.out.println("enter no. of customer to add");
+		int num=sc.nextInt();
+		//set=new TreeSet<Customer>();
+		while(num>0) {
+		//c=new Customer();
+		String str="insert into Customer values(?,?,?,?,?)";
+		pst=con.prepareStatement(str);
+		
+		System.out.println("Customer Id:");
+		//c.setCust_Id(sc.nextInt());
+		pst.setInt(1,sc.nextInt());
+		sc.nextLine();
+		/*do {
+			 t=false;
+		
+		try {
+			System.out.println("Customer Id:");
+		if(String.valueOf(sc.nextInt()).length()>6)
+			throw new MyException("id should be of 6 digits");
+			//c.setCust_Id(sc.nextInt());
+		else
+			//c.setCust_Id(s);
+		t=false;
+		sc.nextLine();
+		
+		}
+		catch(Exception e)
+		{
+			System.out.println("pls enter the id again");
+			t=true;
+	//	sc.nextLine();
+		}
+		}while(t);
+		*/
+	//	sc.nextLine();
+		System.out.println("Customer Name :");
+		//c.setCust_Name(sc.nextLine());
+		pst.setString(2,sc.nextLine());
+		System.out.println("Customer Address :");
+		//c.setCust_Address(sc.nextLine());
+		pst.setString(3,sc.nextLine());
+		System.out.println("Costomer Mobile No. :");
+		//c.setCust_Mob(sc.nextLong());
+		pst.setLong(4,sc.nextLong());
+		sc.nextLine();
+		System.out.println("Customer DOB :");
+	//	c.setCust_DOB(sc.nextLine());
+		pst.setString(5, sc.nextLine());
+		//set.add(c);
+		pst.executeUpdate();
+		System.out.println("data inserted");
+	num--;
+		
+	}
+		}catch(Exception e ) {
+			e.printStackTrace();
+			con.rollback();
+		}finally {
+			try {
+			con.commit();	
+				pst.close();
+				con.close();
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
+/*	
+	public void display() {
+		try {
+con=DbConnect.dbConnectMethod();
+st=con.createStatement();
+con.setAutoCommit(false);
+String query="select * from Customer";
+System.out.println("reterieved data");
+rs=st.executeQuery(query);
+while(rs.next())
+{
+//System.out.println(rs.getInt(1)+" : "+rs.getString(2)+" : "+rs.getString(3)+" : "+rs.getLong(4)+" : "+rs.getString(5));
+	System.out.println("Customer Id: "+rs.getInt(1));
+	System.out.println("Customer Name: "+rs.getString(2));
+	System.out.println("Customer Address: "+rs.getString(3));
+	System.out.println("Customer Mobile No.: "+rs.getLong(4));
+	System.out.println("Customer DOB: "+rs.getString(5)+"\n\n");
+	
+}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			itr=set.iterator();
+	while(itr.hasNext()) {
+		Customer c=itr.next();
+		System.out.println(c);
+	
+	
+	}
+*/
+	
+	/*public void display() {
+		try {
+			System.out.println("enter the id to display the customer");
+			int cust_Id=sc.nextInt();
+con=DbConnect.dbConnectMethod();
+st=con.createStatement();
+con.setAutoCommit(false);
+String query="select * from Customer where cust_Id="+cust_Id;
+
+System.out.println("reterieved data");
+rs=st.executeQuery(query);
+while(rs.next())
+{
+//System.out.println(rs.getInt(1)+" : "+rs.getString(2)+" : "+rs.getString(3)+" : "+rs.getLong(4)+" : "+rs.getString(5));
+	System.out.println("Customer Id: "+rs.getInt(1));
+	System.out.println("Customer Name: "+rs.getString(2));
+	System.out.println("Customer Address: "+rs.getString(3));
+	System.out.println("Customer Mobile No.: "+rs.getLong(4));
+	System.out.println("Customer DOB: "+rs.getString(5)+"\n\n");
+	
+}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			itr=set.iterator();
+	while(itr.hasNext()) {
+		Customer c=itr.next();
+		System.out.println(c);
+	
+	
+	}*/
+	
+	
+	public void display() {
+		try {
+			
+			con=DbConnect.dbConnectMethod();
+			String update="update Customer set cust_Name=?,cust_Address=?,cust_Mob=?,cust_DOB=? where cust_Id=?";
+			pst=con.prepareStatement(update);
+			pst.setString(1,sc.nextLine());
+			pst.setString(2,sc.nextLine());
+			pst.setLong(3,sc.nextLong());
+			pst.setString(4, sc.nextLine());
+			pst.setString(5,sc.nextInt());
+			
+		}catch(Exception e) {
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*	itr=set.iterator();
+	while(itr.hasNext()) {
+		Customer c=itr.next();
+		System.out.println(c);*/
+	
+	
+	}
+	
+	
+	
+	
+	
+	
+	/*	System.out.println("Customer Id: "+c.getCust_Id());
+		System.out.println("Customer Name: "+c.getCust_Name());
+		System.out.println("Customer Address: "+c.getCust_Address());
+		System.out.println("Customer Mobile No.: "+c.getCust_Mob());
+		System.out.println("Customer DOB: "+c.getCust_DOB()+"\n\n");*/
+//	}
+	
+	
+	public Customer getCust()
+	{
+		return c;
+	}
+
+}

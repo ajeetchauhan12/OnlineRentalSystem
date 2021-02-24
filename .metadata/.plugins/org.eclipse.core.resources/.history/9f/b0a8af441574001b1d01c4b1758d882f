@@ -1,0 +1,28 @@
+package com.coforge.Service;
+
+import java.sql.SQLException;
+
+import com.coforge.bean.Mechanic;
+import com.coforge.dao.MechanicDao;
+import com.coforge.dao.MechanicDaoImpl;
+
+public class MechanicServiceImpl implements MechanicService {
+	MechanicDao md=null;
+	public MechanicServiceImpl() {
+		// TODO Auto-generated constructor stub
+	md=new MechanicDaoImpl();
+	}
+	public void addMech() throws SQLException {
+		// TODO Auto-generated method stub
+		md.add();
+	}
+
+	public void dispMech() {
+		// TODO Auto-generated method stub
+		md.display();
+	}
+	public Mechanic getMechanic() {
+		return md.getMechanic();
+	}
+
+}
