@@ -187,7 +187,7 @@ public class App
 	
 	boolean flag3= true;
 	while(flag3) {
-		System.out.println("Enter\n1-->Retreive Customer By id"
+		System.out.println("Enter\n1-->Retreive Customer details By id"
     			+ "\n2-->Retreive Address By id"
     			+ "\n3-->Retreive Product By id"
     			+ "\n4-->Retreive Product_type By id"
