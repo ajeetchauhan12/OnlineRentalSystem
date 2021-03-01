@@ -1,5 +1,7 @@
 package com.coforge.OnlineRentalSystem.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -128,7 +130,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			con = DbConnect.dbConnectMethod();
 			st = con.createStatement();
 			con.setAutoCommit(false);
-			String query = "select * from Customer where cust_Id=" + cust_Id;
+			String query = "select * from Customer where customer_Id=" + cust_Id;
 
 			System.out.println("reterieved data");
 			rs = st.executeQuery(query);
@@ -163,6 +165,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	public void updateCustomer() throws SQLException {
 		try {
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 
 			con = DbConnect.dbConnectMethod();
 			con.setAutoCommit(false);
@@ -171,24 +174,24 @@ public class CustomerDaoImpl implements CustomerDao {
 
 			System.out.println("Customer Name :");
 
-			pst.setString(1, sc.nextLine());
+			pst.setString(1,br.readLine());
 			System.out.println("Costomer Mobile No. :");
 
-			pst.setLong(2, sc.nextLong());
-			sc.nextLine();
+			pst.setLong(2,Long.parseLong(br.readLine()));
+			
 			System.out.println("Enter customergov type: ");
-			pst.setString(3, sc.nextLine());
+			pst.setString(3, br.readLine());
 			System.out.println("Enter customer gov id: ");
-			pst.setLong(4, sc.nextLong());
-			sc.nextLine();
+			pst.setLong(4,Long.parseLong(br.readLine()));
+		
 			System.out.println("Enter customer occupation");
-			pst.setString(5, sc.nextLine());
+			pst.setString(5, br.readLine());
 			System.out.println("Enter customer occupation details ");
 
-			pst.setString(6, sc.nextLine());
+			pst.setString(6,br.readLine());
 			System.out.println("Customer Id:");
 
-			pst.setInt(7, sc.nextInt());
+			pst.setInt(7,Integer.parseInt(br.readLine()));
 			pst.executeUpdate();
 			System.out.println("row updated");
 		} catch (Exception e) {

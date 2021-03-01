@@ -1,5 +1,7 @@
 package com.coforge.OnlineRentalSystem.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,16 +37,54 @@ public class RentDaoImpl implements RentDao {
 				String str = "insert into Rent values(?,?,?,?,?)";
 				pst = con.prepareStatement(str);
 
-				System.out.println("Customer Id:");
+				/*System.out.println("Customer Id:");
 
-				pst.setInt(1, sc.nextInt());
+				pst.setInt(1, sc.nextInt());*/
+
+				System.out.println("Enter the  Customer Id that already exist:");
+				boolean flag=true;
+				while(flag)
+				{
+					int c=sc.nextInt();
+					String query1="select * from Customer where customer_id=?";
+					
+					PreparedStatement pst1=con.prepareStatement(query1);
+					pst1.setInt(1,c);
+					ResultSet rs1=pst1.executeQuery();
+					if(rs1.next()) {
+						pst.setInt(1,c);
+						flag=false;
+					}
+					else {
+						System.out.println("enter the correct customer id");
+					}
+				}
 			//	sc.nextLine();
 				System.out.println("enter the rent id");
 				pst.setInt(2, sc.nextInt());
 				//sc.nextLine();				
-				System.out.println("Product Id:");
+				/*System.out.println("Product Id:");
 
-				pst.setInt(3, sc.nextInt());
+				pst.setInt(3, sc.nextInt());*/
+				System.out.println("Enter the  Product Id that already exist:");
+				boolean flag1=true;
+				while(flag1)
+				{
+					int c=sc.nextInt();
+					String query1="select * from Product where Product_id=?";
+					
+					PreparedStatement pst1=con.prepareStatement(query1);
+					pst1.setInt(1,c);
+					ResultSet rs1=pst1.executeQuery();
+					if(rs1.next()) {
+						pst.setInt(3,c);
+						flag1=false;
+					}
+					else {
+						System.out.println("enter the correct Product id");
+					}
+				}
+				
 				System.out.println("enter the No of days");
 				pst.setInt(4, sc.nextInt());
 				System.out.println("enter the product quantity");
@@ -143,22 +183,57 @@ public class RentDaoImpl implements RentDao {
 
 	public void updateRent() throws SQLException {
 		try {
-
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 			con = DbConnect.dbConnectMethod();
 			con.setAutoCommit(false);
-			String update = "update Rent set No_of_days=?,Product_quantity=? where Rent_id=?";
+			String update = "update Rent set Customer_id=?,Product_id=?,No_of_days=?,Product_quantity=? where Rent_id=?";
 			pst = con.prepareStatement(update);
 				
+			System.out.println("Enter the  Customer Id that already exist:");
+			boolean flag=true;
+			while(flag)
+			{
+				int c=Integer.parseInt(br.readLine());
+				String query1="select * from Customer where customer_id=?";
+				
+				PreparedStatement pst1=con.prepareStatement(query1);
+				pst1.setInt(1,c);
+				ResultSet rs1=pst1.executeQuery();
+				if(rs1.next()) {
+					pst.setInt(1,c);
+					flag=false;
+				}
+				else {
+					System.out.println("enter the correct customer id");
+				}
+			}
 			
-			
+			System.out.println("Enter the  Product Id that already exist:");
+			boolean flag1=true;
+			while(flag1)
+			{
+				int c=Integer.parseInt(br.readLine());
+				String query1="select * from Product where Product_id=?";
+				
+				PreparedStatement pst1=con.prepareStatement(query1);
+				pst1.setInt(1,c);
+				ResultSet rs1=pst1.executeQuery();
+				if(rs1.next()) {
+					pst.setInt(2,c);
+					flag1=false;
+				}
+				else {
+					System.out.println("enter the correct Product id");
+				}
+			}
 	
 			System.out.println("enter the No of days");
-			pst.setInt(1, sc.nextInt());
+			pst.setInt(3, Integer.parseInt(br.readLine()));
 			System.out.println("enter the product quantity");
-			pst.setInt(2, sc.nextInt());
+			pst.setInt(4, Integer.parseInt(br.readLine()));
 			
 			System.out.println("enter the rent id");
-			pst.setInt(3, sc.nextInt());
+			pst.setInt(5, Integer.parseInt(br.readLine()));
 			pst.executeUpdate();
 			System.out.println("row updated");
 		} catch (Exception e) {

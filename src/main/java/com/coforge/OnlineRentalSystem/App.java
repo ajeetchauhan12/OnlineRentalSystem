@@ -227,6 +227,42 @@ public class App
 			break;
 		}
 	}
+	/*for(int i=0;i<3;i++)
+	{
+		System.out.println("enter a no.");
+		int j=sc.nextInt();
+		
+		switch (j) {
+		case 1:
+			csi.updateCustomer();
+			
+			break;
+		case 2:
+			asi.updateAddress();
+			break;
+		case 3:
+			psi.updateProduct();
+			break;
+		case 4:
+			tpi.updateTypeOfProduct();
+			break;
+		case 5:
+			rsi.updateRent();
+			break;
+		case 6:
+			ssi.updateService();
+			break;
+		case 7:
+			bsi.updateBill();
+			break;
+		case 8:
+			sti.updateRent();
+			break;
+		default:
+			//flag4=false;
+			break;
+		}
+	}*/
 	boolean flag4= true;
 	while(flag4) {
 		System.out.println("Enter\n1-->Update Customer"

@@ -1,5 +1,7 @@
 package com.coforge.OnlineRentalSystem.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -171,7 +173,7 @@ while(rs.next())
 	
 	public void updateProduct() throws SQLException {
 		try {
-			
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 			con=DbConnect.dbConnectMethod();
 			con.setAutoCommit(false);
 			String update="update Product set product_name=? where product_id=?";
@@ -182,8 +184,9 @@ while(rs.next())
 		
 			System.out.println("Product Name :");
 		
-		pst.setString(1,sc.nextLine());
-			
+		pst.setString(1,br.readLine());
+			System.out.println("enter the product id to update");
+			pst.setInt(2,Integer.parseInt(br.readLine()));
 			pst.executeUpdate();
 					System.out.println("row updated");
 		}catch(Exception e) {

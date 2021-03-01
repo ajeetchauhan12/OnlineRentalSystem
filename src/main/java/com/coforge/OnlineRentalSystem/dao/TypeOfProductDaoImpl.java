@@ -1,5 +1,7 @@
 package com.coforge.OnlineRentalSystem.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,13 +40,37 @@ public class TypeOfProductDaoImpl implements TypeOfProductDao{
 
 				String str = "insert into Product_type values(?,?,?,?)";
 				pst = con.prepareStatement(str);
-String id="select Product_id from Product";
+/*String id="select Product_id from Product";
+
+
+
 		int a=Integer.parseInt(id);
 System.out.println("Product Id:");
 
 				pst.setInt(1,a);
 				//sc.nextLine();
+*/
 
+				System.out.println("Enter the  Product Id that already exist:");
+				boolean flag=true;
+				while(flag)
+				{
+					int c=sc.nextInt();
+					String query1="select * from Product where Product_id=?";
+					
+					PreparedStatement pst1=con.prepareStatement(query1);
+					pst1.setInt(1,c);
+					ResultSet rs1=pst1.executeQuery();
+					if(rs1.next()) {
+						pst.setInt(1,c);
+						flag=false;
+					}
+					else {
+						System.out.println("enter the correct Product id");
+					}
+				}
+				
+				sc.nextLine();
 			
 				System.out.println("Enter product type :");
 				pst.setString(2, sc.nextLine());
@@ -158,7 +184,7 @@ System.out.println("Product Id:");
 
 	public void updateTypeOfProduct() throws SQLException {
 		try {
-
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 			con = DbConnect.dbConnectMethod();
 			con.setAutoCommit(false);
 			String update = "update Product_type set product_type=?,Product_specification=?,Product_rentprice=? where Product_id=?";
@@ -168,15 +194,33 @@ System.out.println("Product Id:");
 
 		
 			System.out.println("Enter product type :");
-			pst.setString(1, sc.nextLine());
+			pst.setString(1,br.readLine());
 			System.out.println("enter the product specification :");
-			pst.setString(2,sc.nextLine());
+			pst.setString(2,br.readLine());
 			System.out.println("Enter product rent price : ");
-			pst.setInt(3, sc.nextInt());
+			pst.setInt(3,Integer.parseInt(br.readLine()));
 
-			System.out.println("Product Id:");
+			/*System.out.println("Product Id:");
 
-			pst.setInt(4, sc.nextInt());
+			pst.setInt(4, sc.nextInt());*/
+			System.out.println("Enter the  Product Id that already exist:");
+			boolean flag=true;
+			while(flag)
+			{
+				int c=Integer.parseInt(br.readLine());
+				String query1="select * from Product where Product_id=?";
+				
+				PreparedStatement pst1=con.prepareStatement(query1);
+				pst1.setInt(1,c);
+				ResultSet rs1=pst1.executeQuery();
+				if(rs1.next()) {
+					pst.setInt(4,c);
+					flag=false;
+				}
+				else {
+					System.out.println("enter the correct Product id");
+				}
+			}
 			
 			
 			pst.executeUpdate();

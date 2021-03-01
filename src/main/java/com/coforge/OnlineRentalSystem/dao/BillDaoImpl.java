@@ -1,5 +1,7 @@
 package com.coforge.OnlineRentalSystem.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,10 +40,29 @@ public class BillDaoImpl implements BillDao {
 				pst = con.prepareStatement(str);
 
 				
-				System.out.println("enter the rent id");
-				pst.setInt(1, sc.nextInt());
+				/*System.out.println("enter the rent id");
+				pst.setInt(1, sc.nextInt());*/
 				//sc.nextLine();			
+				System.out.println("Enter the  rent Id that already exist:");
+				boolean flag=true;
+				while(flag)
+				{
+					int c=sc.nextInt();
+					String query1="select * from Rent where Rent_id=?";
+					
+					PreparedStatement pst1=con.prepareStatement(query1);
+					pst1.setInt(1,c);
+					ResultSet rs1=pst1.executeQuery();
+					if(rs1.next()) {
+						pst.setInt(1,c);
+						flag=false;
+					}
+					else {
+						System.out.println("enter the correct Product id");
+					}
+				}
 				
+				sc.nextLine();
 				
 				System.out.println("enter the total amount");
 
@@ -145,6 +166,7 @@ public class BillDaoImpl implements BillDao {
 
 	public void updateBill() throws SQLException {
 		try {
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 
 			con = DbConnect.dbConnectMethod();
 			con.setAutoCommit(false);
@@ -157,16 +179,35 @@ public class BillDaoImpl implements BillDao {
 			
 			System.out.println("enter the total amount");
 
-			pst.setInt(1, sc.nextInt());
+			pst.setInt(1,Integer.parseInt(br.readLine()));
 			System.out.println("enter the amount paid");
 			
 			
 			
 			
-			pst.setInt(2, sc.nextInt());
+			pst.setInt(2, Integer.parseInt(br.readLine()));
 
-			System.out.println("enter the rent id");
-			pst.setInt(3, sc.nextInt());
+			/*System.out.println("enter the rent id");
+			pst.setInt(3, sc.nextInt());*/
+			System.out.println("Enter the  Rent Id that already exist:");
+			boolean flag=true;
+			while(flag)
+			{
+				int c=Integer.parseInt(br.readLine());
+				String query1="select * from Rent where Rent_id=?";
+				
+				PreparedStatement pst1=con.prepareStatement(query1);
+				pst1.setInt(1,c);
+				ResultSet rs1=pst1.executeQuery();
+				if(rs1.next()) {
+					pst.setInt(3,c);
+					flag=false;
+				}
+				else {
+					System.out.println("enter the correct Rent id");
+				}
+			}
+			
 	
 			
 			pst.executeUpdate();

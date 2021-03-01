@@ -1,5 +1,7 @@
 package com.coforge.OnlineRentalSystem.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,10 +37,35 @@ public class StatusDaoImpl implements StatusDao{
 				String str = "insert into Status values(?,?)";
 				pst = con.prepareStatement(str);
 
-				System.out.println("Rent Id:");
+				/*System.out.println("Rent Id:");
 
-				pst.setInt(1, sc.nextInt());
+				pst.setInt(1, sc.nextInt());*/
+				
+				
 			//	sc.nextLine();
+				System.out.println("Enter the  rent Id that already exist:");
+				boolean flag=true;
+				while(flag)
+				{
+					int c=sc.nextInt();
+					String query1="select * from Rent where Rent_id=?";
+					
+					PreparedStatement pst1=con.prepareStatement(query1);
+					pst1.setInt(1,c);
+					ResultSet rs1=pst1.executeQuery();
+					if(rs1.next()) {
+						pst.setInt(1,c);
+						flag=false;
+					}
+					else {
+						System.out.println("enter the correct Product id");
+					}
+				}
+				
+				sc.nextLine();
+				
+				
+				
 				System.out.println("returned or not ");
 				pst.setBoolean(2,sc.nextBoolean());
 							
@@ -134,6 +161,7 @@ public class StatusDaoImpl implements StatusDao{
 
 	public void updateRent() throws SQLException {
 		try {
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 
 			con = DbConnect.dbConnectMethod();
 			con.setAutoCommit(false);
@@ -146,9 +174,25 @@ public class StatusDaoImpl implements StatusDao{
 			System.out.println("enter the returned or not stauts");
 			pst.setBoolean(1,sc.nextBoolean());
 			
+			System.out.println("Enter the  Rent Id that already exist:");
+			boolean flag=true;
+			while(flag)
+			{
+				int c=Integer.parseInt(br.readLine());
+				String query1="select * from Rent where Rent_id=?";
+				
+				PreparedStatement pst1=con.prepareStatement(query1);
+				pst1.setInt(1,c);
+				ResultSet rs1=pst1.executeQuery();
+				if(rs1.next()) {
+					pst.setInt(2,c);
+					flag=false;
+				}
+				else {
+					System.out.println("enter the correct Rent id");
+				}
+			}
 			
-			System.out.println("enter the rent id");
-			pst.setInt(2, sc.nextInt());
 			pst.executeUpdate();
 			System.out.println("row updated");
 		} catch (Exception e) {

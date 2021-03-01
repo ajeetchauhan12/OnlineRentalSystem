@@ -1,5 +1,7 @@
 package com.coforge.OnlineRentalSystem.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,11 +57,28 @@ public class AddressDaoImpl implements AddressDao {
 	
 		
 		
-		System.out.println("Customer Id:");
+		System.out.println("Enter the  Customer Id that already exist:");
+		boolean flag=true;
+		while(flag)
+		{
+			int c=sc.nextInt();
+			String query1="select * from Customer where customer_id=?";
+			
+			PreparedStatement pst1=con.prepareStatement(query1);
+			pst1.setInt(1,c);
+			ResultSet rs1=pst1.executeQuery();
+			if(rs1.next()) {
+				pst.setInt(1,c);
+				flag=false;
+			}
+			else {
+				System.out.println("enter the correct customer id");
+			}
+		}
 		
-		pst.setInt(1,sc.nextInt());
-		sc.nextLine();
-	
+		/*pst.setInt(1,sc.nextInt());
+		sc.nextLine();*/
+	//sc.next();
 		System.out.println("House no :");
 	
 		pst.setInt(2,sc.nextInt());
@@ -211,10 +230,10 @@ while(rs.next())
 	
 	public void updateAddress() throws SQLException {
 		try {
-			
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 			con=DbConnect.dbConnectMethod();
 			con.setAutoCommit(false);
-			String update="update Address set house_no=?,street_name=?,pincode=?,state=?,country=? where customer_id=?";
+			String update="update Address set house_no=?,city=?,street_name=?,pincode=?,state=?,country=? where customer_id=?";
 			pst=con.prepareStatement(update);
 	
 			
@@ -222,27 +241,45 @@ while(rs.next())
 		
 			System.out.println("House no :");
 		
-			pst.setInt(1,sc.nextInt());
-			sc.nextLine();
+			pst.setInt(1,Integer.parseInt(br.readLine()));
+			
 
 			System.out.println("Enter street name : ");
-			pst.setString(2,sc.nextLine());
+			pst.setString(2,br.readLine());
 			System.out.println("Enter customer city name: ");
-			pst.setString(3,sc.nextLine());
+			pst.setString(3,br.readLine());
 			
 			System.out.println("Enter customer city pinCode ");
-			pst.setLong(4,sc.nextLong());
-			sc.nextLine();
+			pst.setLong(4,Long.parseLong(br.readLine()));
+			
 			System.out.println("Enter customer state name ");
 			
-			pst.setString(5,sc.nextLine());
+			pst.setString(5,br.readLine());
 
 			System.out.println("enter the country name ");
-			pst.setString(6,sc.nextLine());
+			pst.setString(6,br.readLine());
 			
-			System.out.println("Customer Id:");
+			/*System.out.println("Customer Id:");
 			
-			pst.setInt(7,sc.nextInt());
+			pst.setInt(7,Integer.parseInt(br.readLine()));*/
+			System.out.println("Enter the  Customer Id that already exist:");
+			boolean flag=true;
+			while(flag)
+			{
+				int c=Integer.parseInt(br.readLine());
+				String query1="select * from Customer where customer_id=?";
+				
+				PreparedStatement pst1=con.prepareStatement(query1);
+				pst1.setInt(1,c);
+				ResultSet rs1=pst1.executeQuery();
+				if(rs1.next()) {
+					pst.setInt(7,c);
+					flag=false;
+				}
+				else {
+					System.out.println("enter the correct customer id");
+				}
+			}
 			
 			
 

@@ -1,5 +1,7 @@
 package com.coforge.OnlineRentalSystem.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,10 +40,29 @@ public class ServiceDaoImpl implements ServiceDao{
 				pst = con.prepareStatement(str);
 
 				
-				System.out.println("enter the rent id");
-				pst.setInt(1, sc.nextInt());
+				/*System.out.println("enter the rent id");
+				pst.setInt(1, sc.nextInt());*/
 				//sc.nextLine();			
+				System.out.println("Enter the  rent Id that already exist:");
+				boolean flag=true;
+				while(flag)
+				{
+					int c=sc.nextInt();
+					String query1="select * from Rent where Rent_id=?";
+					
+					PreparedStatement pst1=con.prepareStatement(query1);
+					pst1.setInt(1,c);
+					ResultSet rs1=pst1.executeQuery();
+					if(rs1.next()) {
+						pst.setInt(1,c);
+						flag=false;
+					}
+					else {
+						System.out.println("enter the correct Product id");
+					}
+				}
 				
+				sc.nextLine();
 				
 				System.out.println("enter the service id");
 
@@ -146,26 +167,46 @@ public class ServiceDaoImpl implements ServiceDao{
 
 	public void updateService() throws SQLException {
 		try {
-
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 			con = DbConnect.dbConnectMethod();
 			con.setAutoCommit(false);
-			String update = "update Service set Details=? where Service_id=?";
+			String update = "update Service set Rent_id=?,Details=? where Service_id=?";
 			pst = con.prepareStatement(update);
 				
 			
-			//sc.nextLine();			
+			//sc.nextLine();	
+			System.out.println("Enter the  Rent Id that already exist:");
+			boolean flag=true;
+			while(flag)
+			{
+				int c=Integer.parseInt(br.readLine());
+				String query1="select * from Rent where Rent_id=?";
+				
+				PreparedStatement pst1=con.prepareStatement(query1);
+				pst1.setInt(1,c);
+				ResultSet rs1=pst1.executeQuery();
+				if(rs1.next()) {
+					pst.setInt(1,c);
+					flag=false;
+				}
+				else {
+					System.out.println("enter the correct Rent id");
+				}
+			}
+			
+			
 		
 			System.out.println("enter the details ");
 			
 			
 			
 			
-			pst.setString(3, sc.nextLine());
+			pst.setString(2,br.readLine());
 			
 
 			System.out.println("enter the service id");
 
-			pst.setInt(2, sc.nextInt());
+			pst.setInt(3,Integer.parseInt(br.readLine()));
 			
 			
 			

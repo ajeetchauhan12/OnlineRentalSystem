@@ -1,0 +1,370 @@
+package com.coforge.dao;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Iterator;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.coforge.Exception.MyException;
+import com.coforge.Service.CustomerServiceImpl;
+import com.coforge.bean.Vehicle;
+import com.coforge.db.DbConnect;
+
+public class VehicleDaoImpl implements VehicleDao {
+
+	/*
+	 * private Set<Vehicle> sv=null; Iterator<Vehicle> itr=null;
+	 */
+
+	private Vehicle v = null;
+	static Scanner sc = new Scanner(System.in);
+	static Connection con = null;
+	static PreparedStatement pst = null;
+	static Statement st = null;
+	static ResultSet rs = null;
+
+	public void insertVehicleDetails(CustomerServiceImpl csi) throws SQLException {
+		try {
+			con = DbConnect.dbConnectMethod();
+			con.setAutoCommit(false);
+			
+			String query = "insert into Vehicle values(?,?,?,?,?)";
+			pst = con.prepareStatement(query);
+			/*System.out.println("Vehicle registration No. ");
+			pst.setLong(1, sc.nextLong());*/
+			System.out.println("Mechanic Id:");
+			boolean flag2=true;
+			while(flag2){
+				long cd=sc.nextLong();
+				try {
+				if(String.valueOf(cd).length()>6) {
+					throw new MyException("Mechanic id should not exceed 6 digits");
+				}
+				else {
+					pst.setLong(1,cd);
+					flag2=false;
+				}
+				}
+				catch(Exception e) {
+				
+				flag2=true;
+				System.out.println("enter the Mechanic id again");
+				}
+				}
+			
+			
+			
+			sc.nextLine();
+			System.out.println("Vehicle Model :");
+			pst.setString(2, sc.nextLine());
+
+			System.out.println("Vehicle Engine No. :");
+			pst.setLong(3, sc.nextLong());
+			sc.nextLine();
+			System.out.println("Vehicle Chasis No. :");
+			pst.setLong(4, sc.nextLong());
+			sc.nextLine();
+			
+			System.out.println("Enter already registered Customer Id. :");
+
+			boolean flag = true;
+			while (flag) {
+				int c = sc.nextInt();
+				String query2 = "select * from Customer where cust_id = ?";
+				
+				PreparedStatement pst2 = con.prepareStatement(query2);
+			
+				pst2.setInt(1, c);
+				 rs = pst2.executeQuery();
+				if (rs.next()) {
+					pst.setInt(5,c);
+					flag = false;
+				} else
+					System.out.println("Enter correct Customer Id:");
+			}
+			pst.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			con.rollback();
+		} finally {
+			try {
+				con.commit();
+				pst.close();
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void displayAllVehicle() throws SQLException {
+
+		try {
+			con = DbConnect.dbConnectMethod();
+			con.setAutoCommit(false);
+			st = con.createStatement();
+			String query = "select * from Vehicle";
+			System.out.println("reterived data");
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				System.out.println("Vehicle registration No. " + rs.getLong(1));
+				System.out.println("Vehicle Model :" + rs.getString(2));
+				System.out.println("Vehicle Engine No. :" + rs.getLong(3));
+				System.out.println("Vehicle Chasis No. :" + rs.getLong(4));
+				System.out.println("Customer Id :" + rs.getInt(5));
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			con.rollback();
+		} finally {
+			try {
+				con.commit();
+				// rs.close();
+				st.close();
+				con.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	public void displayVehicleByRegNo() throws SQLException {
+		try {
+			con = DbConnect.dbConnectMethod();
+			con.setAutoCommit(false);
+			st = con.createStatement();
+			System.out.println("enter the vehicle reg no to display");
+			int reg_No = sc.nextInt();
+			String query = "select * from Vehicle where reg_No=" + reg_No;
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				System.out.println("Vehicle registration No. " + rs.getLong(1));
+				System.out.println("Vehicle Model :" + rs.getString(2));
+				System.out.println("Vehicle Engine No. :" + rs.getLong(3));
+				System.out.println("Vehicle Chasis No. :" + rs.getLong(4));
+				System.out.println("Customer Id :" + rs.getInt(5));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			con.rollback();
+		} finally {
+			try {
+				con.commit();
+				// rs.close();
+				st.close();
+				con.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void updateVehicleDetails() throws SQLException {
+		/*try {
+			con = DbConnect.dbConnectMethod();
+			con.setAutoCommit(false);
+
+			String query ="update Vehicle set model=?,engine_No=?,chasis_No=?,cust_id=? where reg_No=?";
+			pst = con.prepareStatement(query);
+			System.out.println("Vehicle Model :");
+			pst.setString(1, sc.nextLine());
+			
+			System.out.println("Vehicle Engine No. :");
+			pst.setLong(2, sc.nextLong());
+			
+			
+			System.out.println("Vehicle Chasis No. :");
+			pst.setLong(3, sc.nextLong());
+			
+			System.out.println("Enter already registered Customer Id. :");
+
+			boolean flag = true;
+			while (flag) {
+				int c = sc.nextInt();
+				String query2 = "select * from Customer where cust_id = ?";
+				
+				PreparedStatement pst2 = con.prepareStatement(query2);
+			
+				pst2.setInt(1, c);
+				 rs = pst2.executeQuery();
+				if (rs.next()) {
+					pst.setInt(4,c);
+					flag = false;
+				} else
+					System.out.println("Enter correct Customer Id:");
+			}
+			System.out.println("Vehicle registration No. ");
+			pst.setLong(5, sc.nextLong());
+		
+			pst.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			con.rollback();
+		} finally {
+			try {
+				con.commit();
+
+				pst.close();
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+*/
+	
+		try {
+			
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+			con = DbConnect.dbConnectMethod();
+			con.setAutoCommit(false);
+
+			String query = "Update vehicle set model=?, engine_No=?, chasis_No=?,cust_id=? where reg_No=?";
+			PreparedStatement pst3 = con.prepareStatement(query);
+
+
+			System.out.println("Vehicle Model :");
+			String m = br.readLine();
+			System.out.println("Vehicle Engine No. :");
+			int e = Integer.parseInt(br.readLine());
+			
+			System.out.println("Vehicle Chasis No. :");
+			int cn = Integer.parseInt(br.readLine());
+			System.out.println("Enter already registered Customer Id. :");
+
+			boolean flag=true;
+			while(flag) {
+			int c = Integer.parseInt(br.readLine());
+			String query1 = "select * from Customer where cust_id = ?";
+			PreparedStatement pst4 = con.prepareStatement(query1);
+			pst4.setInt(1, c);
+			ResultSet rs = pst4.executeQuery();
+			if(rs.next()) {
+			pst3.setInt(4, c);
+			flag=false;}
+			else
+			System.out.println("Enter correct Customer Id:");
+			}
+		
+			/*System.out.println("Vehicle registration No. where you want to update ");
+			//Long reg = Long.parseLong(br.readLine());*/
+			long reg;
+			System.out.println("Vehicle Registration no:");
+			boolean flag2=true;
+			while(flag2){
+				long cd=Long.parseLong(br.readLine());
+				try {
+				if(String.valueOf(cd).length()>6) {
+					throw new MyException("Mechanic should not exceed 6 digits");
+				}
+				else {
+					reg=cd;
+					flag2=false;
+				}
+				}
+				catch(Exception ed) {
+				
+				flag2=true;
+				System.out.println("enter the Mechanic  No again");
+				}
+				}
+			
+			
+			pst3.setString(1, m);
+			pst3.setInt(2, e);
+			pst3.setInt(3, cn);
+			pst3.setLong(5, reg);
+			pst3.executeUpdate();
+			System.out.println("Data updated !!");
+
+			} catch (Exception e) {
+			e.printStackTrace();
+			} finally {
+			con.commit();
+			con.close();
+			}
+	
+	
+	
+	}
+
+	public void deleteVehicleDetails() throws SQLException {
+		try {
+			con = DbConnect.dbConnectMethod();
+			con.setAutoCommit(false);
+
+			String query = "delete from Vehicle where reg_No=?";
+			pst = con.prepareStatement(query);
+			System.out.println("enter the reg no to delete vehicle details");
+			pst.setLong(1, sc.nextLong());
+			pst.executeUpdate();
+			System.out.println("vehicle details deleted");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			con.rollback();
+		} finally {
+			try {
+				con.commit();
+				// rs.close();
+				pst.close();
+				con.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	public Vehicle getVehicle() {
+		return v;
+	}
+
+	/*
+	 * public void add(CustomerServiceImpl csi) {
+	 * 
+	 * System.out.println("enter no. of vehicles "); int num=sc.nextInt();
+	 * while(num>0) { v=new Vehicle(); sv=new TreeSet<Vehicle>(); //c=cd.getCust();
+	 * System.out.println("Vehicle registration No. "); v.setReg_No(sc.nextLong());
+	 * 
+	 * sc.nextLine(); System.out.println("Vehicle Model :");
+	 * v.setModel(sc.nextLine());
+	 * 
+	 * System.out.println("Vehicle Engine No. :"); v.setEngine_No(sc.nextLong());
+	 * 
+	 * System.out.println("Vehicle Chasis No. :"); v.setChasis_No(sc.nextLong());
+	 * num--; sv.add(v); } }
+	 */
+
+	/*
+	 * public void display(CustomerDao cd) { //c=cd.getCust();
+	 * System.out.println("Vehicle registration No. "+v.getReg_No());
+	 * System.out.println("Vehicle Model :"+v.getModel());
+	 * System.out.println("Vehicle Engine No. :"+v.getEngine_No());
+	 * System.out.println("Vehicle Chasis No. :"+v.getChasis_No()); //
+	 * System.out.println("Customer Id :"+ c.getCust_Id()+"\n\n");
+	 * 
+	 * itr=sv.iterator(); while(itr.hasNext()) { Vehicle v=itr.next();
+	 * System.out.println(v); }
+	 * 
+	 * }
+	 */
+	/*
+	 * public Vehicle getVehicle() { return v; }
+	 */
+
+}
